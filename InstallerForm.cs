@@ -19,8 +19,9 @@ namespace Updater
         public static string destinationPath;
         private bool finished = false;
         private ZipFile zip = null;
+
         /// <summary>
-        /// Installer. This class use try/catch instead of checking files/directory existence because antivirus detect File.Exists() and Directory.Exists() like potencial threats(lol). 
+        /// Installer. This class use try/catch instead of checking files/directory existence because antivirus detect File.Exists() and Directory.Exists() as potencial threats(lol). 
         /// </summary>
         public Installer()
         {
@@ -53,19 +54,22 @@ namespace Updater
 
                 return;
             }
-
+            
             destinationPath = DestinationPathDialog();
 
-            List<string> destinationPathContent = new List<string>(Directory.GetFileSystemEntries(destinationPath, "*", SearchOption.AllDirectories));
-
-            if (destinationPathContent.Any(file => file.Contains("NucleusCoop.exe")))
+            if (destinationPath == string.Empty && destinationPath != null && destinationPath != "")
             {
-                DialogResult warning = MessageBox.Show("The selected installation path already contains a Nucleus Co-op installation, all customized files and settings will \nbe overwritten.\n\nDo you wish to continue anyway?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                List<string> destinationPathContent = new List<string>(Directory.GetFileSystemEntries(destinationPath, "*", SearchOption.AllDirectories));
 
-                if (warning == DialogResult.No)
+                if (destinationPathContent.Any(file => file.Contains("NucleusCoop.exe")))
                 {
-                    destinationPath = DestinationPathDialog();
-                    return;
+                    DialogResult warning = MessageBox.Show("The selected installation path already contains a Nucleus Co-op installation, all customized files and settings will \nbe overwritten.\n\nDo you wish to continue anyway?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (warning == DialogResult.No)
+                    {
+                        destinationPath = DestinationPathDialog();
+                        return;
+                    }
                 }
             }
 
@@ -80,7 +84,6 @@ namespace Updater
                                     "\n" +
                                     "A good place is C:\\NucleusCo-op\\NucleusCoop.exe";
 
-
                 MessageBox.Show(message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 destinationPath = DestinationPathDialog();
                 return;
@@ -90,28 +93,36 @@ namespace Updater
             btn_yes.Visible = false;
             btn_no.Visible = false;
             prog_DownloadBar.Visible = true;
-
         }
 
         private static string DestinationPathDialog()
         {
-            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+            try
             {
-                fbd.Description = "Select installation folder, remember to add it to your antivirus exceptions list before the installation.";
-
-                DialogResult result = fbd.ShowDialog();
-
-
-                bool problematic = fbd.SelectedPath.Contains(@"C:\Program Files\") ||
-                                    fbd.SelectedPath.Contains(@"C:\Program Files (x86)\") ||
-                                    fbd.SelectedPath.Contains(@"C:\Users\") ||
-                                    fbd.SelectedPath.Contains(@"C:\Windows\");
-
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath) && !problematic)
+                using (FolderBrowserDialog fbd = new FolderBrowserDialog())
                 {
-                    return fbd.SelectedPath;
-                }
+                    fbd.Description = "Select installation folder, remember to add it to your antivirus exceptions list before the installation.";
 
+                    DialogResult result = fbd.ShowDialog();
+
+                    Console.WriteLine(fbd.SelectedPath);
+                    bool problematic = fbd.SelectedPath.Contains(@"C:\Program Files\") ||
+                                        fbd.SelectedPath.Contains(@"C:\Program Files (x86)\") ||
+                                        fbd.SelectedPath.Contains(@"C:\Users\") ||
+                                        fbd.SelectedPath.Contains(@"C:\Windows\");
+
+                    if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath) && !problematic)
+                    {
+                        return fbd.SelectedPath;
+                    }
+
+                    return string.Empty;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Path not supprted.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                destinationPath = DestinationPathDialog();
                 return string.Empty;
             }
         }
