@@ -7,7 +7,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace Updater
@@ -163,6 +162,7 @@ namespace Updater
 
 
                 bool isValidZip = ZipFile.CheckZip(Path.Combine(destinationPath, @"Temp\NucleusApp.zip"));
+
                 if (isValidZip)
                 {
                     zip = new ZipFile(Path.Combine(destinationPath, @"Temp\NucleusApp.zip"));

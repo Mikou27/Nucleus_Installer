@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -9,11 +10,7 @@ namespace Updater
         [STAThread]
         static void Main()
         {
-            bool createdNew;
-
-            Mutex mutex = new Mutex(true, "$Installer_Mutex$", out createdNew);
-
-            if (!createdNew)
+            if (Process.GetProcessesByName("Installer").Length > 1)
             {
                 return;
             }

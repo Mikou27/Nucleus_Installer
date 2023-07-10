@@ -122,7 +122,7 @@ namespace Updater
             this.MinimumSize = new System.Drawing.Size(283, 107);
             this.Name = "Installer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Nucleus  Updater";
+            this.Text = "Nucleus Installer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Updater_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
