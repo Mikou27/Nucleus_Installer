@@ -32,7 +32,7 @@ namespace Updater
                 btn_yes.Visible = false;
                 btn_no.Visible = false;
                 label.ForeColor = Color.Red;
-                label.Text = "Unable to get latest Nucleus release version from GitHub";
+                label.Text = "Unable to retrieve latest Nucleus release version from GitHub";
                 return;
             }
 
@@ -100,7 +100,7 @@ namespace Updater
             {
                 using (FolderBrowserDialog fbd = new FolderBrowserDialog())
                 {
-                    fbd.Description = "Select installation folder, remember to add it to your antivirus exceptions list before the installation.";
+                    fbd.Description = "Select the installation directory, remember to add it to your antivirus exceptions list before processing the installation.";
 
                     DialogResult result = fbd.ShowDialog();
 
@@ -138,8 +138,8 @@ namespace Updater
                 {
                     webClient.DownloadProgressChanged += wc_DownloadProgressChanged;
                     webClient.DownloadFileAsync(
-                     //new System.Uri($@"https://github.com/SplitScreen-Me/splitscreenme-nucleus/releases/download/{version}/NucleusApp.zip"),
-                     new System.Uri($@"https://github.com/Mikou27/splitscreenme-nucleus/releases/download/{version}/NucleusApp.zip"),
+                     new System.Uri($@"https://github.com/SplitScreen-Me/splitscreenme-nucleus/releases/download/{version}/NucleusApp.zip"),
+                     //new System.Uri($@"https://github.com/Mikou27/splitscreenme-nucleus/releases/download/{version}/NucleusApp.zip"),
                     Path.Combine(destinationPath, @"Temp\\NucleusApp.zip"));
                     webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(webClient_DownloadFileCompleted);
                 }
@@ -185,7 +185,7 @@ namespace Updater
                     btn_yes.Text = "Exit";
                     btn_yes.Location = new Point(Width / 2 - btn_yes.Width / 2, Height / 2 - btn_yes.Height / 2);
 
-                    label.Text = "Installation conpleted!";
+                    label.Text = "Installation completed!";
                     label.Location = new Point(Width / 2 - label.Width / 2, label.Location.Y);
                 }));
 
