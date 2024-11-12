@@ -3,3 +3,5 @@
      <h1 align="left">Nucleus Co-op Installer</h1>  
   </br>
 </div>
+
+Use GitHub Issues to report any problems related to compilation, dependencies, or any other issues that may arise.
